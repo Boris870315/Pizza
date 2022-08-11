@@ -1,0 +1,5 @@
+package yummypizza.model;
+
+public class CombineOrderSideMenu {
+
+}

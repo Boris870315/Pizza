@@ -1,0 +1,32 @@
+package yummypizza.model.product;
+
+public enum Size {
+
+	small, large, extra_large;
+	
+	
+	public static final String question = "choose one size" ;
+
+	public static final String[] descriptions = {
+            "8 inch",
+            "11 inch",
+            "12 inch",
+    };
+	
+	public String getDescription() {
+        return descriptions[this.ordinal()];
+    }
+	
+	public Size getDescriptionEnum(String s) {
+		switch(s) {
+		case"8 inch":
+			return small;
+		case"11 inch":
+			return large;
+		case"12 inch":
+			return extra_large;
+		}
+		return null;
+		
+	}
+}

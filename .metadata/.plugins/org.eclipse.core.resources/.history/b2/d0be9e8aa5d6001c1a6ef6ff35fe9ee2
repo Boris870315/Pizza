@@ -1,0 +1,46 @@
+package yummypizza.model;
+
+import yummypizza.model.product.SideOption;
+import javax.persistence.Id;
+
+public class SideMenu {
+	
+	
+	private SideOption sideoption;
+	private int sideoption_amount;
+	
+	@Id
+	private int sideoptionid;
+	
+	public SideMenu() {
+		
+	}
+	
+	public SideMenu( SideOption sideoption, int sideoption_amount, int sideoptionid) {
+	
+		this.sideoptionid=sideoptionid;
+		this.sideoption=sideoption;
+		this.sideoption_amount=sideoption_amount;
+	}
+	
+	public int getSideoptionid() {
+		return sideoptionid;
+	}
+
+	public void setSideoptionid(int sideoptionid) {
+		this.sideoptionid = sideoptionid;
+	}
+
+	public SideOption getSideoption() {
+		return sideoption;
+	}
+	public void setSideoptionlist(SideOption sideoption) {
+		this.sideoption = sideoption;
+	}
+	public int getSideMenuAmount() {
+		return sideoption_amount;
+	}
+	public void setAmount(int sidemenu_amount) {
+		this.sideoption_amount = sidemenu_amount;
+	}
+}

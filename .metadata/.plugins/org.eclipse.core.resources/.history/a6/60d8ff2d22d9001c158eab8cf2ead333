@@ -1,0 +1,14 @@
+package yummypizza.model;
+
+import java.io.Serializable;
+
+
+import javax.persistence.Embeddable;
+
+
+public class CombinePK implements Serializable{
+	 private int orderid;
+	 private int pizzaid;
+	 
+
+}

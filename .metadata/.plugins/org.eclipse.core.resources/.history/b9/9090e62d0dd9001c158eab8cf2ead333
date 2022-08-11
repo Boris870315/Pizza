@@ -1,0 +1,303 @@
+package yummypizza.gui;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
+
+import yummypizza.model.Order2;
+import yummypizza.model.Pizza;
+import yummypizza.model.SideMenu;
+import yummypizza.repo.OrderList;
+import yummypizza.repo.PizzaList;
+import yummypizza.repo.SideMenuList;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JTextPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JList;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+
+public class Cart extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+
+	Order2 order;
+	OrderList orders ;
+	Pizza pizza= new Pizza();
+	PizzaList pizzas; 
+	SideMenu sidemenu= new SideMenu();
+	JComboBox comboxBoxSearchbyName;
+	
+	private PizzaTableModel pizzaModel;
+	//private SideMenuTableModel sideMenuModel;
+	
+	SideMenuList sidemenus ;
+	private JTable tablePizza;
+	private JTable tableSideMenu;
+//	
+//	private PizzaTableModel model1 ;
+	
+
+	/**
+	 * Create the dialog.
+	 */
+	public Cart(HashMap<String, Object> map) {
+		
+		this.pizzas = (PizzaList) map.get("pizzas");
+		this.order = (Order2) map.get("order");
+		this.sidemenus=(SideMenuList) map.get("sidemenus");
+		this.orders = (OrderList) map.get("orders");
+
+		pizzaModel = new PizzaTableModel();
+		setAlwaysOnTop(true);
+		setTitle("Cart");
+		setBounds(100, 100, 590, 415);
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		JComboBox comboxBoxSearchbyName = new JComboBox();
+		this.comboxBoxSearchbyName = comboxBoxSearchbyName;
+		Iterator iterator = orders.findAll().iterator();
+		while(iterator.hasNext()) {
+			Order2 myOrder = (Order2)iterator.next();
+			comboxBoxSearchbyName.addItem(myOrder);
+		}
+		
+		JScrollPane scrollPanePizza = new JScrollPane();
+		
+		JLabel lblCustomerName = new JLabel("CustomerName");
+		
+		JLabel lblPizzaOrder = new JLabel("Pizza Order");
+		
+		JLabel lblSideMenuOrder = new JLabel("SideMenuOrder");
+		
+		JScrollPane scrollPaneSideMenu = new JScrollPane();
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
+		JButton btnEdit = new JButton("Edit");
+		buttonPane.add(btnEdit);
+		{
+			JButton okButton = new JButton("OK");
+			okButton.setActionCommand("OK");
+			buttonPane.add(okButton);
+			getRootPane().setDefaultButton(okButton);
+			
+		}
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
+		cancelButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				close();
+			}
+		});
+		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		gl_contentPanel.setHorizontalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPanePizza, GroupLayout.PREFERRED_SIZE, 526, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(lblCustomerName)
+							.addGap(23)
+							.addComponent(comboxBoxSearchbyName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblPizzaOrder)
+						.addComponent(lblSideMenuOrder)
+						.addComponent(scrollPaneSideMenu, GroupLayout.PREFERRED_SIZE, 526, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(28, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(buttonPane, GroupLayout.PREFERRED_SIZE, 553, GroupLayout.PREFERRED_SIZE)
+					.addGap(21))
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(2)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(comboxBoxSearchbyName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCustomerName))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblPizzaOrder)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPanePizza, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblSideMenuOrder)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPaneSideMenu, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(buttonPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		
+		tableSideMenu = new JTable();
+		scrollPaneSideMenu.setViewportView(tableSideMenu);
+		
+		tablePizza = new JTable(pizzaModel);
+		scrollPanePizza.setViewportView(tablePizza);
+		contentPanel.setLayout(gl_contentPanel);
+		{
+			{
+				GroupLayout groupLayout = new GroupLayout(getContentPane());
+				groupLayout.setHorizontalGroup(
+					groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(contentPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(491))
+				);
+				groupLayout.setVerticalGroup(
+					groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(contentPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(107))
+				);
+				getContentPane().setLayout(groupLayout);
+			}
+		}
+	}
+	
+	private void close() {
+        this.setVisible(false);
+        this.dispose();
+    }
+	private class PizzaTableModel extends AbstractTableModel {
+	
+		private List<Pizza> pizzaRow ;
+		String[] columns = {"Size", "Base", "sauce", "Topping", "Pizza Amount"};
+		public PizzaTableModel() {
+			refreshPizzaData();
+		}
+		
+		public void refreshPizzaData() {
+		
+    	this.pizzaRow = new ArrayList<Pizza>();
+    	
+    	Order2 selectedOrder;
+    	if(comboxBoxSearchbyName.getSelectedItem() == null) {
+    		selectedOrder = order;
+		}else {
+			selectedOrder = (Order2)comboxBoxSearchbyName.getSelectedItem();
+		}
+    	for (Pizza pizza: pizzas.findAll()) {
+    		
+    		if(selectedOrder.getOrderid().equals(pizza.getOrderid())) {
+    			this.pizzaRow.add(pizza) ;
+    		}
+    	}
+    }
+		
+		@Override
+		public int getRowCount() {
+			// TODO Auto-generated method stub
+			return pizzaRow.size();
+		}
+
+		@Override
+		public int getColumnCount() {
+			// TODO Auto-generated method stub
+			return columns.length;
+		}
+
+		@Override
+		public String getColumnName(int column) {
+			return columns[column];
+		}
+
+
+
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			switch(columnIndex) {
+				case 0:
+					return pizzaRow.get(rowIndex).getSize();
+				case 1:
+					return pizzaRow.get(rowIndex).getBase();
+				case 2:
+					return pizzaRow.get(rowIndex).getSauce();
+				case 3:
+					return pizzaRow.get(rowIndex).getTopping();
+				case 4:
+					return pizzaRow.get(rowIndex).getPizzaamont();
+				
+			}
+			return null;
+		}
+	
+	}
+
+	
+	private void printOrder() {
+		
+		order.getName();
+		order.getOrderid();
+		System.out.print(order.toString());
+	}
+	//delete the data 
+	private void deleteOrderList() {
+
+			Iterator<Order2> iterator = orders.findAll().iterator();
+			while(iterator.hasNext()) {
+				Order2 myOrder2 = iterator.next();
+				System.err.println("iterator: " + myOrder2.toString());
+				
+				//delete by entity
+				//刪除name為Google的那筆資料
+				if("1".equals(myOrder2.getOrderid())) {
+					orders.delete(myOrder2);
+				}
+			}}
+		
+	private void deletePizzaList() {
+			Iterator<Pizza> iterator = pizzas.findAll().iterator();
+			while(iterator.hasNext()) {
+				Pizza myPizza = iterator.next();
+				System.err.println("iterator: " + myPizza.toString());
+				
+				//delete by entity
+				//刪除name為Google的那筆資料
+				if("Google".equals(myPizza.getPizzaid())) {
+					pizzas.delete(myPizza);
+				}
+		}
+		}
+	private void deleteSideMenuList(){
+		
+			Iterator<SideMenu> iterator = sidemenus.findAll().iterator();
+			while(iterator.hasNext()) {
+				SideMenu mySidemenu = iterator.next();
+				System.err.println("iterator: " + mySidemenu.toString());
+				
+				//delete by entity
+				//刪除name為Google的那筆資料
+				if("Google".equals(mySidemenu.getSideoptionid())) {
+					sidemenus.delete(mySidemenu);
+				}
+		}
+		}
+	
+	private void editPizzaList () {
+		
+	}
+	private void editSideMenuList () {
+		
+	}
+}

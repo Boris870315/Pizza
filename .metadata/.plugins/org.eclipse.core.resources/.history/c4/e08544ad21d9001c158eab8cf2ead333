@@ -1,0 +1,16 @@
+package yummypizza.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class CombinePK implements Serializable{
+	
+	
+	 private int orderid;
+	 private int pizzaid;
+	 private int sideoptionid;
+
+}

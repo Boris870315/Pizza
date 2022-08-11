@@ -1,0 +1,86 @@
+package yummypizza.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import yummypizza.model.product.Base;
+import yummypizza.model.product.Sauce;
+import yummypizza.model.product.Size;
+import yummypizza.model.product.Topping;
+
+@Entity
+public class Pizza {
+	@Id
+	private int pizzaid;
+	@Id
+	private int orderid;
+	private Sauce sauce;
+	private Size size;
+	private Base base;
+	private Topping topping;
+	private int pizza_amount;
+	
+	public Pizza(){}	
+	
+	public Pizza (int pizzaid ,int orderid, Sauce sauce, Size size, Base base, Topping topping, int pizza_amount ) {
+		this.pizzaid=pizzaid;
+		this.orderid=orderid;
+		this.sauce=sauce;
+		this.size=size;
+		this.base=base;
+		this.topping=topping;
+		this.pizza_amount=pizza_amount;
+		
+	}
+	public int getPizzaid() {
+		return pizzaid;
+	}
+	public int getOrderid() {
+		return orderid;
+	}
+	public void setOrderid(int orderid) {
+		this.orderid = orderid;
+	}
+	
+	public void setPizzaid(int pizzaid) {
+		this.pizzaid = pizzaid;
+	}
+
+	public Sauce getSauce() {
+		return sauce;
+	}
+	public void setSauce(Sauce sauce) {
+		this.sauce = sauce;
+	}
+	public Size getSize() {
+		return size;
+	}
+	public void setSize(Size size) {
+		this.size = size;
+	}
+	public Base getBase() {
+		return base;
+	}
+	public void setBase(Base base) {
+		this.base = base;
+	}
+	public Topping getTopping() {
+		return topping;
+	}
+	public void setTopping(Topping topping) {
+		this.topping = topping;
+	}
+	
+	public int getPizza_amount() {
+		return pizza_amount;
+	}
+
+	public void setPizza_amount(int pizza_amount) {
+		this.pizza_amount = pizza_amount;
+	}
+
+	public String toString() {
+		return "Size: "+ size + ", Base: " + base + ", Topping: " + topping +", Sauce: " + sauce + ", Pizza amount:" + pizza_amount;
+	}
+	
+}

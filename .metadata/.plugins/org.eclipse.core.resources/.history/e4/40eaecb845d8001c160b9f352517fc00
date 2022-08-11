@@ -1,0 +1,54 @@
+package yummypizza.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Order2 {
+	
+	//refer to no free ride -- student 
+		@Id
+		private Integer orderid;
+		private String name;
+		
+		
+		public Order2(){
+			
+		}
+		
+		public Order2(Integer orderid) {
+	        this.orderid= orderid;
+	        
+	    }
+		
+		
+
+		
+		    public Integer getOrderid() {
+			return orderid;
+		}
+
+		public void setOrderid(Integer orderid) {
+			this.orderid = orderid;
+		}
+
+//		public Integer getPizzaid() {
+//			return pizzaid;
+//		}
+//
+//		public void setPizzaid(Integer pizzaid) {
+//			this.pizzaid = pizzaid;
+//		}
+//
+//		public Integer getSidemenuid() {
+//			return sidemenuid;
+//		}
+//
+//		public void setSidemenuid(Integer sidemenuid) {
+//			this.sidemenuid = sidemenuid;
+//		}
+//		
+//		public String toString() {
+//		       return "Order ID: "+ orderid + ": " + pizzaid + ", " + sidemenuid ;
+//		}
+}

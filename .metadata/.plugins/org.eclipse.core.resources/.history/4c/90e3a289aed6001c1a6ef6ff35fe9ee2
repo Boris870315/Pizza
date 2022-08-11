@@ -1,0 +1,180 @@
+package yummypizza.gui;
+
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.border.EmptyBorder;
+
+import yummypizza.model.Order2;
+import yummypizza.model.product.Base;
+import yummypizza.model.product.Sauce;
+import yummypizza.model.product.Size;
+import yummypizza.model.product.Topping;
+import yummypizza.repo.PizzaList;
+
+public class PizzaMenu extends JDialog {
+	PizzaList pizzas;
+	Order2 order;
+	private final JPanel contentPanel = new JPanel();
+
+	 /* Create the dialog.
+	 */
+	public PizzaMenu(Window owner, Dialog.ModalityType modalityType,HashMap<String, Object> map) {
+		super(owner, modalityType);
+		//
+		pizzas = (PizzaList) map.get("pizzas");
+		order = (Order2) map.get("order");
+		
+		
+		setTitle("Pizza Selection");
+		setBounds(100, 100, 658, 434);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		JLabel lbl_base = new JLabel("Base");
+		lbl_base.setFont(new Font("Arial", Font.BOLD, 16));
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setFont(new Font("Dialog", Font.PLAIN, 14));
+		comboBox.setModel(new DefaultComboBoxModel(Base.descriptions));
+		JLabel lbl_size = new JLabel("Size");
+		lbl_size.setFont(new Font("Arial", Font.BOLD, 16));
+		JLabel lbl_topping = new JLabel("Topping");
+		lbl_topping.setFont(new Font("Arial", Font.BOLD, 16));
+		JLabel lbl_sauce = new JLabel("Sauce");
+		lbl_sauce.setFont(new Font("Arial", Font.BOLD, 16));
+		JComboBox comboBox_size = new JComboBox();
+		comboBox_size.setFont(new Font("Dialog", Font.PLAIN, 14));
+		comboBox_size.setModel(new DefaultComboBoxModel(Size.descriptions));
+		JComboBox comboBox_sauce = new JComboBox();
+		comboBox_sauce.setFont(new Font("Dialog", Font.PLAIN, 14));
+		comboBox_sauce.setModel(new DefaultComboBoxModel(Sauce.descriptions));
+		
+		JComboBox comboBox_topping = new JComboBox();
+		comboBox_topping.setFont(new Font("Dialog", Font.PLAIN, 14));
+		comboBox_topping.setModel(new DefaultComboBoxModel(Topping.descriptions));
+		
+		JSpinner spinner = new JSpinner();
+		
+		JLabel lblNewLabel = new JLabel("Quantity");
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 16));
+		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		gl_contentPanel.setHorizontalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(81)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+					.addGap(6)
+					.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(109)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(24)
+							.addComponent(lbl_size, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+							.addGap(12)
+							.addComponent(comboBox_size, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(24)
+							.addComponent(lbl_base)
+							.addGap(15)
+							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(7)
+							.addComponent(lbl_sauce, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+							.addGap(15)
+							.addComponent(comboBox_sauce, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(lbl_topping, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(comboBox_topping, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(285)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(5)
+							.addComponent(lblNewLabel))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(1)
+							.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+					.addContainerGap(165, Short.MAX_VALUE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(5)
+							.addComponent(lbl_size))
+						.addComponent(comboBox_size, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(37)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(5)
+							.addComponent(lbl_base))
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(29)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(5)
+							.addComponent(lbl_sauce))
+						.addComponent(comboBox_sauce, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(29)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(5)
+							.addComponent(lbl_topping))
+						.addComponent(comboBox_topping, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		contentPanel.setLayout(gl_contentPanel);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("Save");
+				okButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
+					}
+				});
+				okButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						System.err.println("我點了SAVE按鈕");
+						
+						
+					}
+				});
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+}

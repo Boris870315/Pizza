@@ -1,0 +1,122 @@
+package yummypizza.gui;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import yummypizza.model.Order2;
+import yummypizza.repo.OrderList;
+import yummypizza.repo.PizzaList;
+
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+
+public class TypeDetails extends JDialog {
+	
+	Order2 order;
+	PizzaList pizzas;
+	OrderList orders;
+	private final JPanel contentPanel = new JPanel();
+	private JTextField tfCustomerName;
+
+	
+
+
+	/**
+	 * Create the dialog.
+	 */
+	public TypeDetails(HashMap<String, Object> map) {
+		
+		orders = (OrderList) map.get("orders");
+		pizzas = (PizzaList) map.get("pizzas");
+		order = (Order2) map.get("order");
+		
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setLayout(new FlowLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		{
+			JLabel lblNewLabel = new JLabel("customer name");
+			contentPanel.add(lblNewLabel);
+		}
+		{
+			tfCustomerName = new JTextField();
+			contentPanel.add(tfCustomerName);
+			tfCustomerName.setColumns(10);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+				
+				okButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if("".equals(tfCustomerName.getText())) {
+							//pop out "name can not be blank" 
+							System.out.println("name can not be blank");
+						}
+						else {
+						// TODO Auto-generated method stub
+							SelectMenu dialog = new SelectMenu(map);
+							setOrder();
+							dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); //switch to Select Menu 
+							dialog.setVisible(true); //set Side Menu visible
+							close(); //close current window 
+						}
+					}
+				});
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+				cancelButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						close();
+					}
+				});
+			}
+		}
+	}
+	
+	//set up and save 
+	private void setOrder() {
+		System.out.println("Setting up order");
+		
+		order.setName(tfCustomerName.getText());
+		
+		int id = (int) orders.count(); //get max id in the database
+		id++; 
+		order.setOrderid(id);
+		
+		orders.save(order);
+		System.out.println("Save " + order.toString()+"is set up ");
+	
+	}
+	
+	
+	//close windows
+	private void close() {
+	    this.setVisible(false);
+	    this.dispose();
+	}
+	
+	
+}
